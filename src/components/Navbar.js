@@ -21,7 +21,7 @@ export const Navbar = () => {
       <Container>
         <div className="navbar-section">
           <div>
-            <Link className="link" s to="/">
+            <Link className="link" to="/">
               <h2>News</h2>
             </Link>
           </div>
@@ -65,7 +65,7 @@ export const Navbar = () => {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link className="link" to="/Login">
+                  <Link className="link" to="/login">
                     Login
                   </Link>
                 </MenuItem>
