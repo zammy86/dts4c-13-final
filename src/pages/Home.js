@@ -11,6 +11,7 @@ import {
   CardMedia,
   Button,
   Typography,
+  FormControl,
 } from "@mui/material";
 
 import { Navbar } from "../components/Navbar";
@@ -69,7 +70,7 @@ const Home = () => {
 
   useEffect(() => {
     // getNews();
-    getNews2();
+    // getNews2();
   }, []);
   return (
     <div className="home-section">
@@ -85,7 +86,7 @@ const Home = () => {
               <div className="hot-topic-info">
                 <h2>{pop.title}</h2>
                 <Grid container direction="row" spacing={4}>
-                  <Grid item>{pop.published_dat}</Grid>
+                  <Grid item>{pop.published_date}</Grid>
                   <Grid item>{pop.subsection}</Grid>
                 </Grid>
               </div>
