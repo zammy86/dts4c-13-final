@@ -1,0 +1,19 @@
+.news-wrapper {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  .content {
+    // border: 1px solid;
+    border-radius: 10px;
+    margin: 1px;
+    margin-bottom: 20px;
+    padding: 1rem;
+    // width: 100px;
+    // height: 350px;
+    transition: 0.5s;
+    background-color: #444444;
+    color: #f8f8f8;
+  }
+  .content:hover {
+    transform: scale(1.1);
+  }
+}

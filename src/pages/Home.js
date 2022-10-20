@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 
 import { Navbar } from "../components/Navbar";
-import Footer from "../components/Footer";
+import { Footer } from "../components/Footer";
 import { border } from "@mui/system";
 
 const Home = () => {
@@ -73,8 +73,8 @@ const Home = () => {
   ));
 
   useEffect(() => {
-    getNews();
-    getPop();
+    // getNews();
+    // getPop();
   }, []);
   return (
     <div className="home-section">
