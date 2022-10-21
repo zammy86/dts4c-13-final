@@ -8,14 +8,15 @@ clone branch dev-zam2 ini atau checkout ke brach ini boleh lalu :
 
 ada yang harus diedit di file lokasi ini : node_modules\linkedom\esm\interface\document.js
 
-comment baris ini (line 1)
+silahkan comment baris ini (line 1)
 
-// import performance from '../../commonjs/perf_hooks.cjs';
+//import performance from '../../commonjs/perf_hooks.cjs';
 
 dan baris ini (line 121): 
-            // case 'performance':
+           
+            //case 'performance':
             
-            //   return performance;
+            //return performance;
 
 soalnya kalo ga di comment mungkin bisa jadi error 
 
