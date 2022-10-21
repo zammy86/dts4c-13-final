@@ -16,5 +16,5 @@ dan baris ini (line 121):
             // case 'performance':
             //   return performance;
 
-soalnya kalo ga di comment mungkin bisa jadi error
+soalnya kalo ga di comment mungkin bisa jadi error 
 
