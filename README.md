@@ -25,3 +25,5 @@ soalnya kalo ga di comment mungkin bisa jadi error
 maka harus ubah token yang baru di .env 
 
 REACT_APP_API_URL_TOKEN=xxxx
+
+ini tak coba lg dengn nytime3
