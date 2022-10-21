@@ -1,19 +1,20 @@
-# DTS REA4 Final Project
+# Please Readme
 
-Ketentuan lengkap bisa dilihat di [Final Project Guidelines](https://docs.google.com/document/d/122KyWNQ4xxU4aFwWbM4vIfH7LM4AH2CZEZa3YsEHjCk). 
+beberapa package mungkin ga kepakai tapi bisa abaikan dulu
 
-## Daftar pair
+clone branch dev-zam2 ini atau checkout ke brach ini boleh lalu :
 
-Tugas dikerjakan secara berpasangan, untuk daftar kelompok bisa dilihat pada masing-masing Classroom atau Discord Class.
+-npm install
 
-## Fork and Clone
+ada yang harus diedit di file lokasi ini : node_modules\linkedom\esm\interface\document.js
 
-Mohon perwakilan dari pair bisa melakukan fork repo ini dan clone, untuk repositori yang di fork menggunakan penamaan:
+comment baris ini (line 1)
 
-`dts4[a/b/c]-[nomor pair]-final`
+// import performance from '../../commonjs/perf_hooks.cjs';
 
-Contoh: `dts4a-01-final`
+dan baris ini (line 121): 
+            // case 'performance':
+            //   return performance;
 
-## Branching, commit
+soalnya kalo ga di comment mungkin bisa jadi error
 
-Branch dapat sesuai dengan kebutuhan dan kesepakatan bersama dalam pair, namun hasil akhirnya harus di merge ke branch `main` dan di push ke Github. Pastikan hasil akhir kode sudah ter-push!
