@@ -3,7 +3,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { parseHTML, parseJSON} from 'linkedom';
 import parse from 'html-react-parser';
 import axios from 'axios'
-// import { getContent } from '../utility/Utils'
+import { ref, set } from 'firebase/database';
+import { dbFirebase } from '../services/firebase/base';
+
 //REFERENCE = https://mediastack.com/documentation
 const urlFormat = `${process.env.REACT_APP_API_URL}news?access_key=${process.env.REACT_APP_API_URL_TOKEN}&sources=fullcomment`
 function createElementFromHTML(htmlString) {
@@ -37,6 +39,24 @@ export const getNews = createAsyncThunk('news/getNews', async () => {
 export const getHotTopic = createAsyncThunk('news/getHotTopic', async () => {
   const response = await axios.get(urlFormat, {params : {sort : 'popularity', limit:12}})
   return response.data
+})
+
+export const postComment = createAsyncThunk('news/postComment', async ({url, body}, {dispatch, getState }) => {
+  const { displayName, uid }  = getState().auth.userData
+  console.log(uid)
+  // return null;
+
+  const response =  await set(ref(dbFirebase, 'comments'), {
+    url,
+    body,
+    name : displayName,
+    createAt : new Date(),
+    uid : uid
+  });
+
+  // console.log(response)
+  // return response.data
+
 })
 
 export const authSlice = createSlice({
