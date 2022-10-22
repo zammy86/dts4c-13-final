@@ -26,4 +26,7 @@ maka harus ubah token yang baru di .env
 
 REACT_APP_API_URL_TOKEN=xxxx
 
-ini tak coba lg dengn nytime3
+ini tak coba lg dengn nytime3 [update] , nytime terkendala dengan CORS
+
+-sudah ditambahkan fitur login dan regis
+-memecah bbrpa component dan layout
