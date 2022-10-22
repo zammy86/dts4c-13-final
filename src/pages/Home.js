@@ -78,8 +78,8 @@ const Home = () => {
   const newStore = useSelector(state => state.news)
     const navigate = useNavigate()
   useEffect(() => {
-      dispatch(getHotTopic())
-      dispatch(getNews())
+      // dispatch(getHotTopic())
+      // dispatch(getNews())
   }, [dispatch]);
 
   const  handleCardOnClick = (url) => {

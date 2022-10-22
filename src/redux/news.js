@@ -11,17 +11,11 @@ function createElementFromHTML(htmlString) {
   div.innerHTML = htmlString.trim();
   return div.firstChild;
 }
-function createElementFromHTML2(htmlString) {
-  var div = document.createElement('div');
-  div.innerHTML = htmlString.trim();
-  return div;
-}
+
 export const getCurrentNews = createAsyncThunk('news/getCurrentNews', async (url) => {
 
     const response = await axios.get(url)
-    const { window, document, customElements,
-      HTMLElement,
-      Event, CustomEvent} = parseHTML(response.data);
+    const { document } = parseHTML(response.data);
     const textSelection = document.querySelectorAll('.article-content__content-group > p')
     const imageSelection = document.querySelectorAll('.featured-image__image')
     const imageNews = createElementFromHTML(imageSelection.toString()).src

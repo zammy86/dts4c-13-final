@@ -1,7 +1,7 @@
 import { Card, CardMedia, Container, Grid, Typography } from "@mui/material"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams, useSearchParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import ImageNews from "../components/detailnews/ImageNews"
 import { Navbar } from "../components/Navbar"
 import { getCurrentNews } from "../redux/news"
@@ -11,10 +11,11 @@ const DetailNews = () => {
     const dispacth = useDispatch()
     const selectedNews = useSelector(state => state.news.selectedNews)
     const [searchParams, setSearchParams] = useSearchParams();
-
+    const navigate = useNavigate()
     useEffect(() => {
         const url = searchParams.get('ref')
-        if (url) {
+        if (url === 'undefined') navigate('/')
+        if (url && url !== undefined) {
             dispacth(getCurrentNews(url))
         }
     }, [dispacth, searchParams])
