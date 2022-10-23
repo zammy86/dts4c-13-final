@@ -45,18 +45,22 @@ const Login = () => {
                 noValidate
                 autoComplete="off"
               >
-                <TextField
-                  id="outlined-basic"
-                  label="Email"
-                  variant="outlined"
-                  name="email"
-                />
-                <TextField
-                  id="outlined-basic"
-                  label="password"
-                  variant="outlined"
-                  name="password"
-                />
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Email"
+                    variant="outlined"
+                    name="email"
+                  />
+                </div>
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="password"
+                    variant="outlined"
+                    name="password"
+                  />
+                </div>
               </Box>
               <Button className="button" variant="contained" type="submit">
                 <Link to="/">Login</Link>

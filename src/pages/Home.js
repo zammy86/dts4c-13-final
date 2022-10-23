@@ -1,6 +1,6 @@
 // import React from "react";
 import "./styles/home.scss";
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import {
   Container,
@@ -19,10 +19,16 @@ import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 import { border } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { deselectNews, getCurrentNews, getHotTopic, getNews } from "../redux/news";
+import {
+  deselectNews,
+  getCurrentNews,
+  getHotTopic,
+  getNews,
+} from "../redux/news";
 import CardNews from "../components/CardNews";
 import HotTopic from "../components/HotTopic";
 import { Navigate, useNavigate } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 const Home = () => {
   const [news, setNews] = useState([]);
@@ -74,60 +80,60 @@ const Home = () => {
     </Grid>
   ));
 
-  const dispatch = useDispatch()
-  const newStore = useSelector(state => state.news)
-    const navigate = useNavigate()
+  const mode = useContext(ThemeContext);
+  // console.log(mode.theme);
+
+  const dispatch = useDispatch();
+  const newStore = useSelector((state) => state.news);
+  const navigate = useNavigate();
   useEffect(() => {
-      dispatch(getHotTopic())
-      dispatch(getNews())
+    dispatch(getHotTopic());
+    dispatch(getNews());
   }, [dispatch]);
 
-  const  handleCardOnClick = (url) => {
-      dispatch(deselectNews())
-      navigate(`/news?ref=${url}`)
-  }
+  const handleCardOnClick = (url) => {
+    dispatch(deselectNews());
+    navigate(`/news?ref=${url}`);
+  };
 
   return (
-    <div className="home-section">
+    <div className="home-section" id={mode.theme}>
       <Navbar />
-      <Container>
+      <Container className="content-section">
         <Grid container direction="column" className="hot-topics">
           <div className="title">
             <h1>Hot Topics</h1>
           </div>
 
-          <HotTopic news={newStore.hotTopic} handleCardOnClick={handleCardOnClick}/>
-
+          <HotTopic
+            news={newStore.hotTopic}
+            handleCardOnClick={handleCardOnClick}
+          />
         </Grid>
 
-        <Grid container> 
+        <Grid container>
           <Grid item>
             <div className="title">
               <h1>Latest News</h1>
             </div>
           </Grid>
         </Grid>
-        <Grid container sx={{alignContent:'space-between'}} spacing={3}>
-          
-            {(newStore && newStore.news.length) ? (
-              newStore.news.map((val, idx) => {
-                return(
-                  <Grid item xs={6} md={3}  key={idx}>
-                      <Box alignItems="center" justifyContent="center">
-                        
-                        <CardNews 
-                          news={val}
-                          handleCardOnClick={handleCardOnClick}
-                        />
-                      
-                      </Box>
+        <Grid container sx={{ alignContent: "space-between" }} spacing={3}>
+          {newStore && newStore.news.length
+            ? newStore.news.map((val, idx) => {
+                return (
+                  <Grid item xs={6} md={3} key={idx}>
+                    <Box alignItems="center" justifyContent="center">
+                      <CardNews
+                        news={val}
+                        handleCardOnClick={handleCardOnClick}
+                      />
+                    </Box>
                   </Grid>
-                )
-               })
-            ) : null}
-
+                );
+              })
+            : null}
         </Grid>
-
       </Container>
       <Footer />
     </div>
