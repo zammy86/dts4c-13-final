@@ -4,12 +4,20 @@ import { createContext, useState } from "react";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import Regis from "./pages/Regis";
 import DetailNews from "./pages/DetailNews";
 
+import { lazy, Suspense } from "react";
+import Regis from "./pages/Regis";
+import Login from "./pages/Login";
+import LoginRegisLayout from "./pages/LoginRegisLayout";
+
 export const ThemeContext = createContext(null);
+
+const NewsLayout = lazy(() => import("./pages/NewsLayout"));
+// const LoginRegisLayout = lazy(() => import('./pages/LoginRegisLayout'));
+// const Login = lazy(() => import('./pages/Login'));
+// const Regis = lazy(() => import('./pages/Regis'));
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -20,12 +28,46 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/news" element={<DetailNews />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/regis" element={<Regis />}></Route>
+        <Route
+          path="/"
+          element={
+            <Suspense>
+              <NewsLayout />
+            </Suspense>
+          }
+        >
+          <Route path="/" element={<Home />} />
+          <Route path="/news" element={<DetailNews />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
+        </Route>
+
+        <Route
+          path="/login"
+          element=<Suspense fallback={null}>
+            <LoginRegisLayout />
+          </Suspense>
+        >
+          <Route path="/login" element=<Login />></Route>
+        </Route>
+
+        <Route
+          path="/regis"
+          element=<Suspense fallback={null}>
+            <LoginRegisLayout />
+          </Suspense>
+        >
+          <Route path="/regis" element=<Regis />></Route>
+        </Route>
+
+        <Route
+          path="*"
+          element={
+            <>
+              <h1>Not Found</h1>
+            </>
+          }
+        ></Route>
       </Routes>
     </ThemeContext.Provider>
   );

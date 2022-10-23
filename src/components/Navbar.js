@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./styles/navbar.scss";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -18,6 +18,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { ThemeContext } from "../App";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "firebase/auth";
+import { authFirebase } from "../services/firebase/base";
+import { handleLogout } from "../redux/authentication";
 
 export const Navbar = () => {
   const mode = useContext(ThemeContext);
@@ -121,6 +125,15 @@ export const Navbar = () => {
     },
   }));
 
+  const dispatch = useDispatch();
+  const authStore = useSelector((state) => state.auth);
+
+  const handelClickLogout = () => {
+    signOut(authFirebase).then(() => {
+      dispatch(handleLogout());
+    });
+  };
+
   return (
     <div className="wrapper" id={mode.theme}>
       <Container className="container">
@@ -192,11 +205,27 @@ export const Navbar = () => {
                     Profile
                   </Link>
                 </MenuItem>
-                <MenuItem>
-                  <Link className="link" to="/login">
-                    Login
-                  </Link>
-                </MenuItem>
+                {/* Login oR Logout */}
+                {authStore.userData ? (
+                  <MenuItem>
+                    <Link
+                      className="link"
+                      onClick={() => {
+                        handelClickLogout();
+                      }}
+                    >
+                      {`Logout (${
+                        authStore.userData && authStore.userData.displayName
+                      })`}
+                    </Link>
+                  </MenuItem>
+                ) : (
+                  <MenuItem>
+                    <Link className="link" to="/login">
+                      Login
+                    </Link>
+                  </MenuItem>
+                )}
               </Menu>
             </div>
           </div>

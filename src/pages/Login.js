@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect } from "react";
 import "./styles/login.scss";
 import {
   Container,
@@ -8,9 +9,17 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import BoxLogin from "../components/BoxLogin";
+import { useSelector } from "react-redux";
 
 const Login = () => {
+  const authStore = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   console.log(authStore.userData)
+  // })
   return (
     <div className="login-section">
       <Container className="container">
@@ -22,7 +31,7 @@ const Login = () => {
           alignContent="center"
           className="login-wrapper"
         >
-          <Grid item className="login-box">
+          {/* <Grid item className="login-box">
             <Grid
               className="login-content"
               container
@@ -69,7 +78,9 @@ const Login = () => {
                 Create Account <Link to="/login">Registrasi</Link>
               </Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
+
+          <BoxLogin />
         </Grid>
       </Container>
     </div>

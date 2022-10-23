@@ -1,21 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
-const initialUser = () => {
-}
 
-export const getUserData = createAsyncThunk('authentication/getUserData', async () => {
+export const getUserData = createAsyncThunk('auth/getUserData', async () => {
 })
 
 export const authSlice = createSlice({
-  name: 'authentication',
+  name: 'auth',
   initialState: {
-    userData: initialUser(),
-    ability: {}
+    userData: null
   },
   reducers: {
     handleLogin: (state, action) => {
+      state.userData = action.payload
     },
     handleLogout: state => {
+      state.userData = null
     }
   },
   extraReducers: builder => {
