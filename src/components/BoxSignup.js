@@ -1,17 +1,18 @@
 import { Alert, Avatar, Button, Grid, Snackbar, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createUserWithEmailAndPassword, signInWithCredential, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword, signInWithCredential, updateProfile } from 'firebase/auth';
+import { Link, useNavigate } from "react-router-dom";
 import { authFirebase } from '../services/firebase/base';
-import { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useState } from "react";
+import { handleLogin } from "../redux/authentication";
+import { useDispatch } from "react-redux";
 
 const BoxSignup = () => {
     
     
     const navigate = useNavigate();
-    const [statusLogin, setStatusLogin] = useState(false)
+    const dispatch = useDispatch()
     // state for handle snackbar
     const [message, setMessage] = useState(undefined)
     const [messageStatus, setMessageStatus] = useState(undefined)
@@ -40,9 +41,8 @@ const BoxSignup = () => {
                     //jika berhasil update, maka loginkan ke sistem firebase
                     signInWithCredential(authFirebase, userCredential)
                         .then((userCredential) => {
-                            const user = userCredential.user;
-                            console.log(user)
-                            Navigate('/')
+                            dispatch(handleLogin())
+                            navigate('/')
                         })
                 })
             }
