@@ -13,6 +13,7 @@ import "moment-timezone";
 import { Box } from "@mui/system";
 import { CardActionArea } from "@mui/material";
 import { ThemeContext } from "../App";
+
 const CardNews = (props) => {
   const { news, handleCardOnClick } = props;
   const mode = useContext(ThemeContext);
@@ -37,7 +38,7 @@ const CardNews = (props) => {
             src={news.image}
           />
         ) : null}
-        <CardContent sx={{ alignItems: "center" }}>
+        <CardContent className="card-content" sx={{ alignItems: "center" }}>
           <Typography gutterBottom variant="h7" component="div">
             <div dangerouslySetInnerHTML={{ __html: news.title }} />
           </Typography>
