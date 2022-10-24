@@ -31,20 +31,8 @@ const BoxLogin = (props) => {
             }, (error) => {
                 setMessageStatus ('error')
                 setOpenSnack(true)
-                switch (error.code) {
-                    case  'auth/user-not-found' :
-                        setMessage('Login Gagal, User Tidak ditemukan')
-                        break
-                    case  'auth/wrong-password' :
-                        setMessage('Login Gagal, Password Salah')
-                        break
-                    case  'auth/invalid-email' :
-                        setMessage('Login Gagal, Email Salah')
-                        break
-                    default :
-                    setMessage('Error Tidak diketahui')
-                    break
-                }
+                const msgError = error.code.split("/")
+                setMessage(`Error caused ${msgError[1].split("-").join(" ")}`)
             })
     }
 
