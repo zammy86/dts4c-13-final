@@ -143,16 +143,7 @@ export const Navbar = () => {
                     Home
                   </Link>
                 </MenuItem>
-                <MenuItem>
-                  <Link className="link" to="/about">
-                    About
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link className="link" to="/profile">
-                    Profile
-                  </Link>
-                </MenuItem>
+                
                 {/* Login oR Logout */}
                 { (authStore.userData) ? (
                   <MenuItem>
