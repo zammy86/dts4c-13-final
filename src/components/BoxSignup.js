@@ -42,12 +42,8 @@ const BoxSignup = () => {
                         .then((userCredential) => {
                             const user = userCredential.user;
                             console.log(user)
+                            Navigate('/')
                         })
-                        .catch((error) => {
-                            const errorCode = error.code;
-                            const errorMessage = error.message;
-                        });
-                    Navigate('/')
                 })
             }
         }, error => {
