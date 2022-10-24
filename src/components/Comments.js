@@ -5,6 +5,7 @@ import { width } from "@mui/system"
 import { child, equalTo, get, getDatabase, limitToLast, onValue, push, query, ref, set } from "firebase/database"
 import md5 from "md5"
 import { useEffect, useState } from "react"
+import Moment from "react-moment"
 import { useDispatch, useSelector } from "react-redux"
 import { getComments, postComment } from "../redux/news"
 import { authFirebase, dbFirebase } from "../services/firebase/base"
@@ -106,7 +107,7 @@ const Comments = (props) => {
                         <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
                             <Typography sx={{ fontWeight: 600 }}>{userComment.name}</Typography>
                             <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                                {userComment.created_at}
+                                <Moment  fromNow unix>{userComment.created_at/1000}</Moment> 
                             </Typography>
                             <Typography variant='body2' sx={{ fontSize: '1rem', color: 'black', mt:1 }}>
                                 {userComment.body}

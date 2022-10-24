@@ -1,9 +1,9 @@
-import { Card, CardMedia, Container, Grid, Typography } from "@mui/material"
+import { CardMedia, Container, Grid, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import Comments from "../components/Comments"
-import ImageNews from "../components/detailnews/ImageNews"
+import LoadingSpinner from "../components/LoadingSpinner"
 import { Navbar } from "../components/Navbar"
 import { getCurrentNews } from "../redux/news"
 
@@ -11,23 +11,30 @@ const DetailNews = () => {
     
     const dispacth = useDispatch()
     const selectedNews = useSelector(state => state.news.selectedNews)
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, __] = useSearchParams();
     const [url, _] = useState(searchParams.get('ref'))
+    const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
     useEffect(() => {
-        // const url = searchParams.get('ref')
         if (url === 'undefined') navigate('/')
+        setLoading(true)
         if (url && url !== undefined) {
-            dispacth(getCurrentNews(url))
+            dispacth(getCurrentNews(url)).then(() => setLoading(false))
+        } else {
+            navigate('/')
         }
+        setLoading(false)
     }, [dispacth, navigate, url])
     return (
     <div className="detail-section">
 
         <Navbar />
-
+        
         <Container>
-        {selectedNews !== null && 
+        {loading ? 
+        <LoadingSpinner/> 
+        :
+        selectedNews !== null && 
         <>
             <Grid container sx={{pt: 2}}>
                 <Grid item xs={12}>
@@ -56,7 +63,7 @@ const DetailNews = () => {
                         
                 </Grid>
             </Grid>
-        </>
+        </> 
         }
         </Container>
     </div>

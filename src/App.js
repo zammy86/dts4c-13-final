@@ -10,6 +10,7 @@ import { lazy, Suspense } from "react";
 import Regis from "./pages/Regis";
 import Login from "./pages/Login";
 import LoginRegisLayout from "./pages/LoginRegisLayout";
+import LoadingSpinner from "./components/LoadingSpinner";
 const NewsLayout = lazy(() => import('./pages/NewsLayout'));
 // const LoginRegisLayout = lazy(() => import('./pages/LoginRegisLayout'));
 // const Login = lazy(() => import('./pages/Login'));
@@ -18,8 +19,9 @@ const NewsLayout = lazy(() => import('./pages/NewsLayout'));
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Suspense><NewsLayout /></Suspense>}>
+      <Route path="/" element={<Suspense fallback=<LoadingSpinner/>><NewsLayout /></Suspense>}>
         <Route path="/" element={<Home />}/>
+        <Route path="/search/:keywords" element={<Home />}/>
         <Route path="/news" element={<DetailNews />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
