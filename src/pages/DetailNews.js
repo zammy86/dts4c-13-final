@@ -51,9 +51,8 @@ const DetailNews = () => {
                 </Grid>
             </Grid> 
             <Grid container sx={{pt: 2}}>
-                <Grid item xs={12}>
-
-                    <Comments url = {url}/>
+                <Grid item xs={12} sx={{mb:5}}>
+                    <Comments url = {url} />
                         
                 </Grid>
             </Grid>

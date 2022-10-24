@@ -1,13 +1,18 @@
-import { Button, Grid, TextField, Typography } from "@mui/material"
+import { Alert, Button, Grid, Snackbar, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { useEffect } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { handleLogin } from "../redux/authentication"
 import { authFirebase } from "../services/firebase/base"
 
 const BoxLogin = () => {
+
+    // state for handle snackbar
+    const [message, setMessage] = useState(undefined)
+    const [messageStatus, setMessageStatus] = useState(undefined)
+    const [openSnack, setOpenSnack] = useState(false)
 
     const dispatch = useDispatch()
     
@@ -19,9 +24,30 @@ const BoxLogin = () => {
         signInWithEmailAndPassword(authFirebase, email, password)
             .then(userCredenstial => {
                 dispatch(handleLogin(userCredenstial.user))
+            }, (error) => {
+                setMessageStatus ('error')
+                setOpenSnack(true)
+                switch (error.code) {
+                    case  'auth/user-not-found' :
+                        setMessage('Login Gagal, User Tidak ditemukan')
+                        break
+                    case  'auth/wrong-password' :
+                        setMessage('Login Gagal, Password Salah')
+                        break
+                    case  'auth/invalid-email' :
+                        setMessage('Login Gagal, Email Salah')
+                        break
+                    default :
+                    setMessage('Error Tidak diketahui')
+                    break
+                }
             })
     }
 
+    const handleClose = () => {
+        setOpenSnack(false)
+        setMessage(undefined)
+    }
     return (
         <>
             <Grid item className="login-box">
@@ -78,6 +104,13 @@ const BoxLogin = () => {
                 </Typography>
                 </Grid>
             </Grid>
+
+            {/* info login if fail */}
+            <Snackbar open={openSnack} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity={messageStatus} sx={{ width: '100%' }}>
+                    {message}
+                </Alert>
+            </Snackbar>
         </>
     )
 }

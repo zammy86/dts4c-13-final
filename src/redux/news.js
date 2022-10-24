@@ -3,8 +3,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { parseHTML, parseJSON} from 'linkedom';
 import parse from 'html-react-parser';
 import axios from 'axios'
-import { ref, set } from 'firebase/database';
+import { equalTo, limitToLast, onChildAdded, onValue, push, query, ref, set } from 'firebase/database';
 import { dbFirebase } from '../services/firebase/base';
+import { async } from '@firebase/util';
 
 //REFERENCE = https://mediastack.com/documentation
 const urlFormat = `${process.env.REACT_APP_API_URL}news?access_key=${process.env.REACT_APP_API_URL_TOKEN}&sources=fullcomment`
@@ -43,21 +44,23 @@ export const getHotTopic = createAsyncThunk('news/getHotTopic', async () => {
 
 export const postComment = createAsyncThunk('news/postComment', async ({url, body}, {dispatch, getState }) => {
   const { displayName, uid }  = getState().auth.userData
-  console.log(uid)
-  // return null;
-
-  const response =  await set(ref(dbFirebase, 'comments'), {
+  const md5 = require('md5')
+  const id_url = md5(url)
+  console.log(id_url)
+  const dataToPush = {
     url,
-    body,
+    body, 
     name : displayName,
-    createAt : new Date(),
+    created_at : Date.now(),
     uid : uid
-  });
-
-  // console.log(response)
-  // return response.data
+  }
+  const commentListRef = ref(dbFirebase, `comments/${id_url}`);
+  const newCommentPostRef = push(commentListRef);
+  await set(newCommentPostRef, dataToPush);
 
 })
+
+
 
 export const authSlice = createSlice({
   name: 'news',
@@ -66,7 +69,8 @@ export const authSlice = createSlice({
     selectedNews : null,
     paramsNews : {},
     pagination : {},
-    hotTopic : {}
+    hotTopic : {},
+    commentsSelectedNews : []
   },
   reducers: {
       deselectNews: (state, action) => {
@@ -100,6 +104,7 @@ export const authSlice = createSlice({
       .addCase(getCurrentNews.fulfilled, (state, action) => {
         state.selectedNews = action.payload
       })
+      
     }
 })
 
