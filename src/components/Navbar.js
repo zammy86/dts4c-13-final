@@ -79,8 +79,12 @@ export const Navbar = () => {
                 {/* Login oR Logout */}
                 { (authStore.userData) ? (
                   <MenuItem>
-                  <Link className="link" onClick={() => {handelClickLogout()}}>
-                      {`Logout (${authStore.userData && authStore.userData.displayName})`}
+                  <Link className="link" onClick={(e) => {
+                        e.preventDefault() 
+                        handelClickLogout()}
+                        }
+                  >
+                    {`Logout (${authStore.userData && authStore.userData.displayName})`}
                   </Link>
                 </MenuItem>
                 ) : (
