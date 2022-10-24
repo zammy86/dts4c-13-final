@@ -40,7 +40,7 @@ const BoxSignup = () => {
                 }).then(() => {
                     //jika berhasil update, maka loginkan ke sistem firebase
                     signInWithCredential(authFirebase, userCredential)
-                        .then((userCredential) => {
+                        .then(() => {
                             dispatch(handleLogin())
                             navigate('/')
                         })
