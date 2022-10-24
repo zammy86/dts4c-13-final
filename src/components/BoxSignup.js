@@ -17,10 +17,7 @@ const BoxSignup = () => {
     const [message, setMessage] = useState(undefined)
     const [messageStatus, setMessageStatus] = useState(undefined)
     const [openSnack, setOpenSnack] = useState(false)
-    // onAuthStateChanged(authFirebase, (user) => {
-    //     setStatusLogin(true)
-    //     return navigate('/')
-    // })
+
     const handleClose = () => {
       setOpenSnack(false)
       setMessage(undefined)
