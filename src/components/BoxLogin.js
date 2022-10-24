@@ -7,8 +7,8 @@ import { Link } from "react-router-dom"
 import { handleLogin } from "../redux/authentication"
 import { authFirebase } from "../services/firebase/base"
 
-const BoxLogin = () => {
-
+const BoxLogin = (props) => {
+    const { setOpenModal, fromComments, handlePostComment } = props
     // state for handle snackbar
     const [message, setMessage] = useState(undefined)
     const [messageStatus, setMessageStatus] = useState(undefined)
@@ -23,6 +23,10 @@ const BoxLogin = () => {
         const password = data.get('password')
         signInWithEmailAndPassword(authFirebase, email, password)
             .then(userCredenstial => {
+                if (fromComments) {
+                    handlePostComment(e)
+                    setOpenModal(false)
+                }
                 dispatch(handleLogin(userCredenstial.user))
             }, (error) => {
                 setMessageStatus ('error')

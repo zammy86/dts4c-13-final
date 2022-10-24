@@ -1,6 +1,6 @@
 import { map } from "@firebase/util"
-import { Send } from "@mui/icons-material"
-import { Avatar, Badge, Box, Button, Grid, styled, TextareaAutosize, TextField, Typography } from "@mui/material"
+import { Close, Send } from "@mui/icons-material"
+import { Avatar, Badge, Box, Button, Dialog, DialogContent, Grid, IconButton, Modal, styled, TextareaAutosize, TextField, Typography } from "@mui/material"
 import { width } from "@mui/system"
 import { child, equalTo, get, getDatabase, limitToLast, onValue, push, query, ref, set } from "firebase/database"
 import md5 from "md5"
@@ -8,12 +8,16 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getComments, postComment } from "../redux/news"
 import { authFirebase, dbFirebase } from "../services/firebase/base"
+import BoxLogin from "./BoxLogin"
 
 
 const Comments = (props) => {
     const { url } = props
     
     const [comment, setComment] = useState('')
+
+    //modal dialog for handle user not login
+    const [openModal, setOpenModal] = useState(false)
 
     const dispatch = useDispatch()
     const [commentsStore, setCommentStore] = useState([]) 
@@ -22,21 +26,29 @@ const Comments = (props) => {
         setComment(event.target.value)
     }
 
-    const handlePostComment = (e) => {
+    const handlePostComment =  (e) => {
         e.preventDefault();
-        dispatch(postComment(
-            {
-                url,
-                body : comment
-            }
-        )).then(res => {
-            if (res.meta.requestStatus === 'fulfilled') {
-                setComment('')
-            }
-        })
+        //cek is login 
+        const user = authFirebase.currentUser;
+        if (user) {
+             dispatch(postComment(
+                {
+                    url,
+                    body : comment
+                }
+                )).then(res => {
+                    if (res.meta.requestStatus === 'fulfilled') {
+                        setComment('')
+                    }
+                })
+        } else {
+            setOpenModal(true)
+        }
     }
 
-    //hook list data from 'firebase realtime database'
+    const handleModalClose = () => {
+        setOpenModal(false)
+    }
        
     useEffect(() => {
         const id_url = md5(url)
@@ -46,10 +58,10 @@ const Comments = (props) => {
             let data = null
             if (snapshot.exists()) {
                 data = snapshot.val()
-                var hasil = Object.keys(data).map((key) => [Number(key), data[key]][1]);
+                const hasil = Object.keys(data).map((key) => [Number(key), data[key]][1]);
                 setCommentStore(hasil)
             } else {
-              console.log("No data available");
+              console.log("No Comment available");
             }
           })
     },[])
@@ -105,7 +117,20 @@ const Comments = (props) => {
             )
         }) : null }
        
-       
+        <Dialog open={openModal} onClose={handleModalClose}>
+        <DialogContent sx={{ pb: 6, px: { xs: 8, sm: 15 }, pt: { xs: 8, sm: 12.5 }, position: 'relative' }}>
+            <IconButton size='small' onClick={handleModalClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
+                <Close />
+            </IconButton>
+
+            <BoxLogin 
+                setOpenModal = {setOpenModal} 
+                 fromComments = {true}
+                 handlePostComment = {handlePostComment} />
+
+        </DialogContent>
+        
+      </Dialog>
         </>
     )
 }
