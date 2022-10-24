@@ -63,11 +63,6 @@ const DetailNews = () => {
                 <Comments url={url} />
               </Grid>
             </Grid>
-            <Grid container sx={{ pt: 2 }}>
-              <Grid item xs={12}>
-                <Comments url={url} />
-              </Grid>
-            </Grid>
           </>
         )}
       </Container>
