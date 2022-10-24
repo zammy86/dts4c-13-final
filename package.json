@@ -25,6 +25,7 @@
     "html-react-parser": "^3.0.4",
     "https-browserify": "^1.0.0",
     "linkedom": "^0.14.17",
+    "md5": "^2.3.0",
     "mdi-material-ui": "^7.5.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.38",

@@ -210,7 +210,8 @@ export const Navbar = () => {
                   <MenuItem>
                     <Link
                       className="link"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.preventDefault();
                         handelClickLogout();
                       }}
                     >

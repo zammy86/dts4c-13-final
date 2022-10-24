@@ -25,7 +25,6 @@ const DetailNews = () => {
   return (
     <div className="detail-section">
       <Navbar />
-
       <Container>
         {selectedNews !== null && (
           <>
@@ -57,6 +56,11 @@ const DetailNews = () => {
                       })
                     : null}
                 </div>
+              </Grid>
+            </Grid>
+            <Grid container sx={{ pt: 2 }}>
+              <Grid item xs={12} sx={{ mb: 5 }}>
+                <Comments url={url} />
               </Grid>
             </Grid>
             <Grid container sx={{ pt: 2 }}>

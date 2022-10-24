@@ -3,8 +3,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { parseHTML, parseJSON } from "linkedom";
 import parse from "html-react-parser";
 import axios from "axios";
-import { ref, set } from "firebase/database";
+import {
+  equalTo,
+  limitToLast,
+  onChildAdded,
+  onValue,
+  push,
+  query,
+  ref,
+  set,
+} from "firebase/database";
 import { dbFirebase } from "../services/firebase/base";
+import { async } from "@firebase/util";
 
 //REFERENCE = https://mediastack.com/documentation
 const urlFormat = `${process.env.REACT_APP_API_URL}news?access_key=${process.env.REACT_APP_API_URL_TOKEN}&sources=fullcomment`;
@@ -34,8 +44,13 @@ export const getCurrentNews = createAsyncThunk(
   }
 );
 
+// export const getNews = createAsyncThunk("news/getNews", async () => {
+//   const response = await axios.get(urlFormat, { params: { limit: 8 } });
+//   return response.data;
+// });
+
 export const getNews = createAsyncThunk("news/getNews", async () => {
-  const response = await axios.get(urlFormat, { params: { limit: 8 } });
+  const response = await axios.get(urlFormat);
   return response.data;
 });
 
@@ -50,8 +65,19 @@ export const postComment = createAsyncThunk(
   "news/postComment",
   async ({ url, body }, { dispatch, getState }) => {
     const { displayName, uid } = getState().auth.userData;
-    console.log(uid);
-    // return null;
+    const md5 = require("md5");
+    const id_url = md5(url);
+    console.log(id_url);
+    const dataToPush = {
+      url,
+      body,
+      name: displayName,
+      created_at: Date.now(),
+      uid: uid,
+    };
+    const commentListRef = ref(dbFirebase, `comments/${id_url}`);
+    const newCommentPostRef = push(commentListRef);
+    await set(newCommentPostRef, dataToPush);
 
     const response = await set(ref(dbFirebase, "comments"), {
       url,
@@ -74,6 +100,7 @@ export const authSlice = createSlice({
     paramsNews: {},
     pagination: {},
     hotTopic: {},
+    commentsSelectedNews: [],
   },
   reducers: {
     deselectNews: (state, action) => {

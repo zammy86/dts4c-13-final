@@ -1,49 +1,80 @@
-import { Send } from "@mui/icons-material"
-import { Avatar, Badge, Box, Button, Grid, styled, TextareaAutosize, TextField, Typography } from "@mui/material"
+import { map } from "@firebase/util"
+import { Close, Send } from "@mui/icons-material"
+import { Avatar, Badge, Box, Button, Dialog, DialogContent, Grid, IconButton, Modal, styled, TextareaAutosize, TextField, Typography } from "@mui/material"
 import { width } from "@mui/system"
-import { ref, set } from "firebase/database"
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { postComment } from "../redux/news"
-import { dbFirebase } from "../services/firebase/base"
+import { child, equalTo, get, getDatabase, limitToLast, onValue, push, query, ref, set } from "firebase/database"
+import md5 from "md5"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { getComments, postComment } from "../redux/news"
+import { authFirebase, dbFirebase } from "../services/firebase/base"
+import BoxLogin from "./BoxLogin"
 
-const BadgeContentSpan = styled('span')(({ theme }) => ({
-    width: 8,
-    height: 8,
-    borderRadius: '50%',
-    backgroundColor: theme.palette.success.main,
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
-  }))
 
 const Comments = (props) => {
     const { url } = props
-
-    const [comment, setComment] = useState('')
     
-    const dispacth = useDispatch()
+    const [comment, setComment] = useState('')
+
+    //modal dialog for handle user not login
+    const [openModal, setOpenModal] = useState(false)
+
+    const dispatch = useDispatch()
+    const [commentsStore, setCommentStore] = useState([]) 
     
     const handleChange = event => {
         setComment(event.target.value)
     }
 
-    const handlePostComment = (e) => {
+    const handlePostComment =  (e) => {
         e.preventDefault();
-        console.log(comment)
-        dispacth(postComment({
-            url,
-            body : comment
+        //cek is login 
+        const user = authFirebase.currentUser;
+        if (user) {
+             dispatch(postComment(
+                {
+                    url,
+                    body : comment
+                }
+                )).then(res => {
+                    if (res.meta.requestStatus === 'fulfilled') {
+                        setComment('')
+                    }
+                })
+        } else {
+            setOpenModal(true)
         }
-        )).then(res => console.log(res))
-        .catch(err => console.log('err', err))
-      }
+    }
 
+    const handleModalClose = () => {
+        setOpenModal(false)
+    }
+       
+    useEffect(() => {
+        const id_url = md5(url)
+
+        const recentPostsRef  =  query(ref(dbFirebase, `comments/${id_url}`))
+        onValue(recentPostsRef, (snapshot) => {
+            let data = null
+            if (snapshot.exists()) {
+                data = snapshot.val()
+                const hasil = Object.keys(data).map((key) => [Number(key), data[key]][1]);
+                setCommentStore(hasil)
+            } else {
+              console.log("No Comment available");
+            }
+          })
+    },[])
+   
+    
     return (
         <>
-        <form noValidate autoComplete='off' onSubmit={(e) => {handlePostComment(e)}}>
+        <form noValidate={false} autoComplete='off' onSubmit={(e) => {handlePostComment(e)}}>
             <Grid container spacing={1}>
                 <Grid item md={8} xs={12}>
                     <Box className='' sx={{ mb: 1, width:'100%' }}>
                         <TextField
+                            required
                             sx={{width:'100%'}}
                             multiline
                             maxRows={4}
@@ -63,25 +94,43 @@ const Comments = (props) => {
             </Grid>
         </form>
         
-        {/* coment list */}
-        <Box sx={{ pt: 2, pb: 3, px: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-           <Badge sx={{alignItems:'start', pt:0.5}}>
-
-            <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '3rem', height: '3rem' }} />
-           </Badge>
-            <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>{`userComment.name`}</Typography>
-              <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                {`userComment.createdAt`}
-              </Typography>
-              <Typography variant='body2' sx={{ fontSize: '1rem', color: 'black', mt:1 }}>
-                {`userComment.body`}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+        {/* render coment list */}
+        { (commentsStore.length) ? 
+            commentsStore.map((userComment, idx) => {
+            return (
+                <Box key={idx} sx={{ pt: 2, pb: 3, px: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                        <Badge sx={{alignItems:'start'}}>
+                            <Avatar alt={userComment.name} src='/images/avatars/1.png' sx={{ width: '3rem', height: '3rem' }} />
+                        </Badge>
+                        <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
+                            <Typography sx={{ fontWeight: 600 }}>{userComment.name}</Typography>
+                            <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
+                                {userComment.created_at}
+                            </Typography>
+                            <Typography variant='body2' sx={{ fontSize: '1rem', color: 'black', mt:1 }}>
+                                {userComment.body}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Box>
+            )
+        }) : null }
        
+        <Dialog open={openModal} onClose={handleModalClose}>
+        <DialogContent sx={{ pb: 6, px: { xs: 8, sm: 15 }, pt: { xs: 8, sm: 12.5 }, position: 'relative' }}>
+            <IconButton size='small' onClick={handleModalClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
+                <Close />
+            </IconButton>
+
+            <BoxLogin 
+                setOpenModal = {setOpenModal} 
+                 fromComments = {true}
+                 handlePostComment = {handlePostComment} />
+
+        </DialogContent>
+        
+      </Dialog>
         </>
     )
 }

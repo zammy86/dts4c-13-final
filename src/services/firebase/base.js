@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'
 import { getDatabase } from "firebase/database";
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -14,10 +15,11 @@ const firebaseConfig = {
   storageBucket : process.env.REACT_APP_STORAGEBUCKET,
   messagingSenderId:process.env.REACT_APP_MESSAGINGSENDERID,
   appId:process.env.REACT_APP_APPID,
-  databaseURL: process.env.REACT_APP_DATABASEURL
+  databaseURL: "https://reactjs-explore-default-rtdb.asia-southeast1.firebasedatabase.app/" //process.env.REACT_APP_DATABASEURL
 };
   // databaseURL: process.env.REACT_APP_DATABASEURL
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const authFirebase = getAuth(app);
 export const dbFirebase  = getDatabase(app);
+// export const dbFirestore  = getFirestore(app)
