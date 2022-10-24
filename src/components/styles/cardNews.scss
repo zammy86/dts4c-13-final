@@ -1,0 +1,16 @@
+#light {
+  color: #121221;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+#dark {
+  color: #fdfdfd;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+@media screen and (max-width: 600px) {
+  .card-content {
+    display: flex;
+    flex-direction: row;
+  }
+}

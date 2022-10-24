@@ -1,0 +1,78 @@
+.login-section {
+  background-color: #121221;
+  width: 100vw;
+  height: 100vh;
+  .container {
+    padding-top: 4rem;
+    width: 45vw;
+    .login-wrapper {
+      background-color: #fdfdfd;
+      border-radius: 10px;
+      padding: 1rem;
+      .login-box {
+        .login-content {
+          .title {
+          }
+          .sub-title {
+          }
+          .box {
+            display: flex;
+            flex-direction: column;
+            direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 1rem;
+            padding-bottom: 2rem;
+          }
+          .button {
+            margin-bottom: 1rem;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (min-width: 800px) {
+    .container {
+      width: 500px;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .container {
+      width: 60vw;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .container {
+      width: 80vw;
+    }
+  }
+  @media screen and (max-width: 400px) {
+    .container {
+      width: 90vw;
+      .login-wrapper {
+        .login-box {
+          .login-content {
+            .title {
+              width: 100px;
+              margin: auto;
+              text-align: center;
+            }
+            .box {
+              div {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                justify-content: center;
+                #outlined-basic {
+                  width: 50vw;
+                }
+              }
+            }
+            .button {
+            }
+          }
+        }
+      }
+    }
+  }
+}

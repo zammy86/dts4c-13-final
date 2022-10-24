@@ -1,0 +1,107 @@
+#light.wrapper {
+  // box-shadow: 0px 1px 10px #888888;
+  background-color: #fdfdfd;
+  width: 100vw;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  .container {
+    .navbar-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .navbar-left {
+        .link {
+          display: flex;
+          width: 100%;
+          justify-content: space-around;
+          div {
+            font-size: 25px;
+            font-weight: bold;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            padding: 10px;
+          }
+          .title1 {
+            border-radius: 10px;
+            color: #fdfdfd;
+            background-color: #121221;
+          }
+        }
+      }
+      .navbar-right {
+        display: flex;
+        align-items: center;
+        .search-wrapper {
+          .search {
+            .search-input {
+            }
+          }
+        }
+        .dropdown {
+          .menu {
+            color: #121221;
+          }
+        }
+      }
+    }
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: #000000;
+}
+
+#dark.wrapper {
+  // box-shadow: 0px 1px 10px #888888;
+  background: #121221;
+  width: 100vw;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  .container {
+    .navbar-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .navbar-left {
+        .link {
+          display: flex;
+          width: 100%;
+          justify-content: space-around;
+          div {
+            font-size: 25px;
+            font-weight: bold;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            padding: 10px;
+          }
+          .title1 {
+            border-radius: 10px;
+            color: #fdfdfd;
+            background-color: #121221;
+          }
+          .title2 {
+            border-radius: 10px;
+            color: #121221;
+            background-color: #fdfdfd;
+          }
+        }
+      }
+      .navbar-right {
+        display: flex;
+        align-items: center;
+        .search-wrapper {
+          .search {
+            background-color: #fdfdfd;
+            color: #121221;
+            .search-input {
+            }
+          }
+        }
+        .dropdown {
+          .menu {
+            color: #fdfdfd;
+          }
+        }
+      }
+    }
+  }
+}
