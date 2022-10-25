@@ -1,6 +1,6 @@
 // import React from "react";
 import "./styles/home.scss";
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import {
   Container,
@@ -19,13 +19,20 @@ import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 import { border } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { deselectNews, getCurrentNews, getHotTopic, getNews } from "../redux/news";
+import {
+  deselectNews,
+  getCurrentNews,
+  getHotTopic,
+  getNews,
+} from "../redux/news";
 import CardNews from "../components/CardNews";
 import HotTopic from "../components/HotTopic";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { ThemeContext } from "../App";
 
 const Home = () => {
+  const mode = useContext(ThemeContext);
   const [news, setNews] = useState([]);
   const [pop, setPop] = useState([]);
   const [popimg1, setPopImg1] = useState([]);
@@ -75,91 +82,106 @@ const Home = () => {
     </Grid>
   ));
 
-  const [loadingHot, setLoadingHot] = useState(true)
-  const [loadingLatest, setLoadingLatest] = useState(true)
-  
-  const dispatch = useDispatch()
-  const newStore = useSelector(state => state.news)
-  const navigate = useNavigate()
-  const params = useParams()
+  const [loadingHot, setLoadingHot] = useState(true);
+  const [loadingLatest, setLoadingLatest] = useState(true);
+
+  const dispatch = useDispatch();
+  const newStore = useSelector((state) => state.news);
+  const navigate = useNavigate();
+  const params = useParams();
   useEffect(() => {
-    setLoadingLatest(true) 
-    dispatch(getNews(params)).then(() => setLoadingLatest(false) )
+    setLoadingLatest(true);
+    dispatch(getNews(params)).then(() => setLoadingLatest(false));
 
-    setLoadingHot(true) 
-    dispatch(getHotTopic()).then(() => setLoadingHot(false))
-
+    setLoadingHot(true);
+    dispatch(getHotTopic()).then(() => setLoadingHot(false));
   }, [params, dispatch]);
 
-  const  handleCardOnClick = (url) => {
-      
-      dispatch(deselectNews())
-      navigate(`/news?ref=${url}`)
-  }
+  const handleCardOnClick = (url) => {
+    dispatch(deselectNews());
+    navigate(`/news?ref=${url}`);
+  };
 
   return (
-    <div className="home-section">
+    <div className="home-section" id={mode.theme}>
       <Navbar />
-      <Container>
-        {!params.keywords &&  
-        <Grid container direction="column" className="hot-topics">
-          <div className="title">
-            <h1>Hot Topics</h1>
-          </div>
-          {loadingHot && Object.keys(newStore.hotTopic).length === 0 ?
-          <LoadingSpinner/>
-          :
-          Object.keys(newStore.hotTopic).length !== 0 ? 
-            <HotTopic news={newStore.hotTopic} handleCardOnClick={handleCardOnClick}/>
-            : 
-            <>
-              <Grid item xs={6} md={12} sx={{textAlign:'center'}}>
-                <div style={{textAlign: 'center', fontSize:'2rem', fontWeight: 700}}>Hot Topic Not Found</div>
-              </Grid>
-            </>
-          }
+      <Container className="content-section">
+        {!params.keywords && (
+          <Grid container direction="column" className="hot-topics">
+            <div className="title">
+              <h1>Hot Topics</h1>
+            </div>
+            {loadingHot && Object.keys(newStore.hotTopic).length === 0 ? (
+              <LoadingSpinner />
+            ) : Object.keys(newStore.hotTopic).length !== 0 ? (
+              <HotTopic
+                news={newStore.hotTopic}
+                handleCardOnClick={handleCardOnClick}
+              />
+            ) : (
+              <>
+                <Grid item xs={6} md={12} sx={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Hot Topic Not Found
+                  </div>
+                </Grid>
+              </>
+            )}
+          </Grid>
+        )}
 
-
-        </Grid>
-        }
-
-        <Grid container> 
+        <Grid container>
           <Grid item>
             <div className="title">
               <h1>Latest News</h1>
             </div>
           </Grid>
         </Grid>
-      {loadingLatest ? 
+        {loadingLatest ? (
           <LoadingSpinner />
-          :
-        <Grid container sx={{alignContent:'space-between'}} spacing={3}>
-         
-            {(newStore && newStore.news.length) ? (
+        ) : (
+          <Grid
+            className="search-v"
+            container
+            sx={{ alignContent: "space-between" }}
+            spacing={3}
+          >
+            {newStore && newStore.news.length ? (
               newStore.news.map((val, idx) => {
-                return(
-                  <Grid item xs={6} md={3}  key={idx}>
-                      <Box alignItems="center" justifyContent="center">
-                        
-                        <CardNews 
-                          news={val}
-                          handleCardOnClick={handleCardOnClick}
-                        />
-                      
-                      </Box>
+                return (
+                  <Grid item xs={6} md={3} key={idx}>
+                    <Box alignItems="center" justifyContent="center">
+                      <CardNews
+                        news={val}
+                        handleCardOnClick={handleCardOnClick}
+                      />
+                    </Box>
                   </Grid>
-                )
-               })
+                );
+              })
             ) : (
-            <>
-              <Grid item xs={6} md={12} sx={{textAlign:'center'}}>
-                <div style={{textAlign: 'center', fontSize:'2rem', fontWeight: 700}}>We're sorry, your request was not found</div>
-              </Grid>
-            </>
+              <>
+                <Grid item xs={6} md={12} sx={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    We're sorry, your request was not found
+                  </div>
+                </Grid>
+              </>
             )}
-          
-        </Grid>
-      }
+          </Grid>
+        )}
       </Container>
       <Footer />
     </div>

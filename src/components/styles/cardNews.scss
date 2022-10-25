@@ -1,0 +1,28 @@
+#light.card-latest {
+  color: #121221;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  background-color: #fdfdfd;
+}
+
+#dark.card-latest {
+  color: #fdfdfd;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  background-color: #444444;
+}
+
+#light.update-latest {
+  color: #121221;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+#dark.update-latest {
+  color: #fdfdfd;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+@media screen and (max-width: 600px) {
+  .card-content {
+    display: flex;
+    flex-direction: row;
+  }
+}

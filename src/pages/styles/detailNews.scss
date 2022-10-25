@@ -1,0 +1,34 @@
+#light.detail-section {
+  background: #fdfdfd;
+  color: #121221;
+  min-height: 100vh;
+  .content-section {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+  }
+}
+
+#dark.detail-section {
+  background-color: #121221;
+  color: #fdfdfd;
+  min-height: 100vh;
+  .content-section {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+  }
+}
+
+// #light.detail-section {
+//   background-color: #121221;
+//   color: #fdfdfd;
+// }
+
+// #dark.detail-section {
+//   background-color: #121221;
+//   color: #fdfdfd;
+// }
+
+h6 {
+  font-size: xx-large;
+  font-weight: bold;
+}

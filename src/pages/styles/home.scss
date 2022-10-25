@@ -1,38 +1,89 @@
-.home-section {
-  background: #fdfdfd;
-}
-
-.hot-topics {
-  display: flex;
-  flex-direction: column;
-  .content {
-    display: flex;
-    justify-content: space-between;
-    // flex-wrap: wrap;
-    .hot-topic-img {
-      position: relative;
-      height: fit-content;
-      width: fit-content;
-      img {
-        width: 100%;
-        min-width: 200px;
-        height: auto;
-        border-radius: 10px;
-      }
-      .hot-topic-info {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        color: #fdfdfd;
-        h2 {
-          font-size: 20px;
-          font-weight: bold;
+#light.home-section {
+  background-color: #fdfdfd;
+  color: #121221;
+  width: 100vw;
+  .content-section {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+    min-height: 100vh;
+    .hot-topics {
+      display: flex;
+      flex-direction: column;
+      .content {
+        display: flex;
+        justify-content: space-between;
+        // flex-wrap: wrap;
+        .hot-topic-img {
+          position: relative;
+          height: fit-content;
+          width: fit-content;
+          img {
+            width: 100%;
+            min-width: 200px;
+            height: auto;
+            border-radius: 10px;
+          }
+          .hot-topic-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #fdfdfd;
+            h2 {
+              font-size: 20px;
+              font-weight: bold;
+            }
+          }
+        }
+        .hot-topic-text {
+          flex-grow: 1;
+          font-size: large;
         }
       }
     }
-    .hot-topic-text {
-      flex-grow: 1;
-      font-size: large;
+  }
+}
+
+#dark.home-section {
+  background-color: #121221;
+  color: #fdfdfd;
+  width: 100vw;
+  .content-section {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+    min-height: 100vh;
+    .hot-topics {
+      display: flex;
+      flex-direction: column;
+      .content {
+        display: flex;
+        justify-content: space-between;
+        // flex-wrap: wrap;
+        .hot-topic-img {
+          position: relative;
+          height: fit-content;
+          width: fit-content;
+          img {
+            width: 100%;
+            min-width: 200px;
+            height: auto;
+            border-radius: 10px;
+          }
+          .hot-topic-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #fdfdfd;
+            h2 {
+              font-size: 20px;
+              font-weight: bold;
+            }
+          }
+        }
+        .hot-topic-text {
+          flex-grow: 1;
+          font-size: large;
+        }
+      }
     }
   }
 }
