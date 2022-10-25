@@ -2,6 +2,7 @@
 import "./styles/home.scss";
 import { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { Close } from "@mui/icons-material";
 import {
   Container,
   Grid,
@@ -9,6 +10,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  IconButton,
   Button,
   Typography,
   FormControl,
@@ -33,15 +35,15 @@ import { ThemeContext } from "../App";
 
 const Home = () => {
   const mode = useContext(ThemeContext);
-  const [news, setNews] = useState([]);
-  const [pop, setPop] = useState([]);
-  const [popimg1, setPopImg1] = useState([]);
-  const [popimg2, setPopImg2] = useState([]);
-  const [popimg3, setPopImg3] = useState([]);
-  const current = new Date();
-  // const tokenApi = "24BQhBWdIUBg6WkepsnHjc8QhbogL9WxlMyPmZcX";
-  // const tokenGuardian = "71f244b4-5281-43c4-9145-f3356fa32efb";
-  const tokenNyt = "Gfh1vUZGP3GWOuaJj3TGyKOXIeTthGA4";
+  // const [news, setNews] = useState([]);
+  // const [pop, setPop] = useState([]);
+  // const [popimg1, setPopImg1] = useState([]);
+  // const [popimg2, setPopImg2] = useState([]);
+  // const [popimg3, setPopImg3] = useState([]);
+  // const current = new Date();
+  // // const tokenApi = "24BQhBWdIUBg6WkepsnHjc8QhbogL9WxlMyPmZcX";
+  // // const tokenGuardian = "71f244b4-5281-43c4-9145-f3356fa32efb";
+  // const tokenNyt = "Gfh1vUZGP3GWOuaJj3TGyKOXIeTthGA4";
 
   // Promise
   //   const getNews = () => {
@@ -52,47 +54,52 @@ const Home = () => {
   //   };
 
   // Promise async await
-  const getNews2 = async () => {
-    try {
-      const res = await axios.get(
-        // `https://content.guardianapis.com/search?api-key=${tokenGuardian}`
-        `https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json?api-key=Gfh1vUZGP3GWOuaJj3TGyKOXIeTthGA4`
-      );
-      console.log(res.data.results);
-      console.log(res.data.results[0].media[0]["media-metadata"][0].url);
-      setPopImg1(res.data.results[0].media[0]["media-metadata"][0].url);
-      setPopImg2(res.data.results[0].media[0]["media-metadata"][1].url);
-      setPopImg3(res.data.results[0].media[0]["media-metadata"][2].url);
-      setNews(res.data.results);
-      setPop(res.data.results[0]);
-    } catch (err) {
-      // Handle Error Here
-      console.error(err);
-    }
-  };
+  // const getNews2 = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       // `https://content.guardianapis.com/search?api-key=${tokenGuardian}`
+  //       `https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json?api-key=Gfh1vUZGP3GWOuaJj3TGyKOXIeTthGA4`
+  //     );
+  //     console.log(res.data.results);
+  //     console.log(res.data.results[0].media[0]["media-metadata"][0].url);
+  //     setPopImg1(res.data.results[0].media[0]["media-metadata"][0].url);
+  //     setPopImg2(res.data.results[0].media[0]["media-metadata"][1].url);
+  //     setPopImg3(res.data.results[0].media[0]["media-metadata"][2].url);
+  //     setNews(res.data.results);
+  //     setPop(res.data.results[0]);
+  //   } catch (err) {
+  //     // Handle Error Here
+  //     console.error(err);
+  //   }
+  // };
 
-  const latestNews = news.map((item, i) => (
-    <Grid item md={3}>
-      <img src={item.media[0]["media-metadata"][1].url} alt="News Img"></img>
+  // const latestNews = news.map((item, i) => (
+  //   <Grid item md={3}>
+  //     <img src={item.media[0]["media-metadata"][1].url} alt="News Img"></img>
 
-      <h4>{item.title}</h4>
+  //     <h4>{item.title}</h4>
 
-      <div>{item.updated}</div>
-      <div>{item.source}</div>
-    </Grid>
-  ));
+  //     <div>{item.updated}</div>
+  //     <div>{item.source}</div>
+  //   </Grid>
+  // ));
 
   const [loadingHot, setLoadingHot] = useState(true);
   const [loadingLatest, setLoadingLatest] = useState(true);
+  const [pengumuman, setPengumuman] = useState("block");
 
   const dispatch = useDispatch();
   const newStore = useSelector((state) => state.news);
   const navigate = useNavigate();
   const params = useParams();
+
+  const toggleClose = () => {
+    setPengumuman("none");
+  };
+
   useEffect(() => {
     setLoadingLatest(true);
     dispatch(getNews(params)).then(() => setLoadingLatest(false));
-
     setLoadingHot(true);
     dispatch(getHotTopic()).then(() => setLoadingHot(false));
   }, [params, dispatch]);
@@ -105,6 +112,29 @@ const Home = () => {
   return (
     <div className="home-section" id={mode.theme}>
       <Navbar />
+      <div
+        className="pengumuman"
+        style={{ position: "relative", display: pengumuman }}
+      >
+        <p>Jika Berita Tidak Mucul</p>
+        <p>
+          Chrome setting --&gt; site setting --&gt; Insecure content --&gt;
+          click add button of allow, lalu masukan nama domain situs ini
+        </p>
+        <IconButton
+          size="small"
+          onClick={toggleClose}
+          className="close"
+          sx={{
+            border: "1px solid",
+            position: "absolute",
+            right: "1rem",
+            top: "1rem",
+          }}
+        >
+          <Close />
+        </IconButton>
+      </div>
       <Container className="content-section">
         {!params.keywords && (
           <Grid container direction="column" className="hot-topics">

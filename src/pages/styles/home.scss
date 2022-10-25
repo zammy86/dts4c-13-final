@@ -2,6 +2,16 @@
   background-color: #fdfdfd;
   color: #121221;
   width: 100vw;
+  .pengumuman {
+    margin: auto;
+    border: 2px solid;
+    width: fit-content;
+    text-align: center;
+    padding: 5px;
+    border-radius: 15px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background-color: transparent;
+  }
   .content-section {
     padding-top: 1rem;
     padding-bottom: 3rem;
@@ -47,6 +57,20 @@
   background-color: #121221;
   color: #fdfdfd;
   width: 100vw;
+  .pengumuman {
+    margin: auto;
+    border: #fdfdfd 2px solid;
+    width: fit-content;
+    text-align: center;
+    padding: 5px;
+    border-radius: 15px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background-color: transparent;
+    color: #fdfdfd;
+    .close {
+      color: #fdfdfd;
+    }
+  }
   .content-section {
     padding-top: 1rem;
     padding-bottom: 3rem;
