@@ -177,7 +177,6 @@ export const Navbar = () => {
                 }
               />
             </FormGroup>
-            =======
             <div>
               {/* <FormGroup>
                 <FormControlLabel
