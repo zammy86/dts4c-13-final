@@ -2,33 +2,23 @@
 
 ![](./gif-13.gif)
 
-beberapa package mungkin ga kepakai tapi bisa abaikan dulu
+# Link Live APP
 
-clone branch dev-zam2 ini atau checkout ke brach ini boleh lalu :
+https://reactjs-explore.web.app/
 
--npm install
+# Penjelasan, API, Fitur Unik
 
-ada yang harus diedit di file lokasi ini : node_modules\linkedom\esm\interface\document.js
+projek yang kami ambil adalah website berita,
+nama projek kami camPRONews
+untuk desain tampilan kami menggunakan figma yang sudah disediakan
+https://www.figma.com/file/2OiwxzyG7KZL10TZuWLmO2/News?node-id=0%3A1
 
-silahkan comment baris ini (line 1):
+API yang kami pakai adalah
 
-//import performance from '../../commonjs/perf_hooks.cjs';
+- mediastack (https://mediastack.com/)
 
-dan baris ini (line 121):
+Fitur Unik
 
-            //case 'performance':
-
-            //return performance;
-
-soalnya kalo ga di comment mungkin bisa jadi error
-
-jika error : 429 Too Many Requests
-
-maka harus ubah token yang baru di .env
-
-REACT_APP_API_URL_TOKEN=xxxx
-
-ini tak coba lg dengn nytime3 [update] , nytime terkendala dengan CORS
-
--sudah ditambahkan fitur login dan regis
--memecah bbrpa component dan layout
+- Search
+- Comment
+- Dark Mode
