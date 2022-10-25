@@ -27,13 +27,13 @@ function App() {
         <Route path="/profile" element={<Profile />}></Route>
       </Route>
 
-      <Route path="/login" element=<Suspense fallback={null}><LoginRegisLayout /></Suspense>>
+      <Route path="/login" element=<LoginRegisLayout />>
           <Route path="/login" element=<Login />></Route>
       </Route>
       
-      <Route path="/regis" element=<Suspense fallback={null}><LoginRegisLayout /></Suspense>>
+      <Route path="/regis" element=<LoginRegisLayout />>
           <Route path="/regis" element=<Regis />></Route>
-        </Route>
+      </Route>
       
       <Route path="*" element={<><h1>Not Found</h1></>}></Route>
     
