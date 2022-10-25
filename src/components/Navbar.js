@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import "./styles/navbar.scss";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { styled, alpha } from "@mui/material/styles";
 import {
   Container,
   Button,
@@ -11,7 +12,6 @@ import {
   FormGroup,
   FormControlLabel,
 } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import SearchIcon from "@mui/icons-material/Search";
@@ -34,7 +34,6 @@ export const Navbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -127,6 +126,7 @@ export const Navbar = () => {
 
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const handelClickLogout = () => {
     signOut(authFirebase).then(() => {
@@ -134,6 +134,12 @@ export const Navbar = () => {
     });
   };
 
+  const handleSearch = (e) => {
+    if (e.code === "Enter") {
+      const value = e.target.value;
+      navigate(`/search/${value}`);
+    }
+  };
   return (
     <div className="wrapper" id={mode.theme}>
       <Container className="container">
@@ -152,13 +158,28 @@ export const Navbar = () => {
                 </SearchIconWrapper>
                 <StyledInputBase
                   className="search-input"
-                  placeholder="Search…"
+                  placeholder="Enter Text Search…"
                   inputProps={{ "aria-label": "search" }}
+                  onKeyDown={(e) => {
+                    handleSearch(e);
+                  }}
                 />
               </Search>
             </div>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <MaterialUISwitch
+                    sx={{ m: 1 }}
+                    onChange={mode.toggleTheme}
+                    checked={mode.theme === "dark"}
+                  />
+                }
+              />
+            </FormGroup>
+            =======
             <div>
-              <FormGroup>
+              {/* <FormGroup>
                 <FormControlLabel
                   control={
                     <MaterialUISwitch
@@ -168,8 +189,11 @@ export const Navbar = () => {
                     />
                   }
                 />
-              </FormGroup>
+              </FormGroup> */}
             </div>
+            {/* <div className="search">
+              <SearchIcon />
+            </div> */}
             <div className="dropdown">
               <Button
                 className="menu"
@@ -195,16 +219,7 @@ export const Navbar = () => {
                     Home
                   </Link>
                 </MenuItem>
-                <MenuItem>
-                  <Link className="link" to="/about">
-                    About
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link className="link" to="/profile">
-                    Profile
-                  </Link>
-                </MenuItem>
+
                 {/* Login oR Logout */}
                 {authStore.userData ? (
                   <MenuItem>

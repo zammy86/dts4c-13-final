@@ -17,7 +17,7 @@ import { dbFirebase } from "../services/firebase/base";
 import { async } from "@firebase/util";
 
 //REFERENCE = https://mediastack.com/documentation
-const urlFormat = `${process.env.REACT_APP_API_URL}news?access_key=${process.env.REACT_APP_API_URL_TOKEN}&sources=fullcomment`;
+const urlFormat = `${process.env.REACT_APP_API_URL}news?access_key=${process.env.REACT_APP_API_URL_TOKEN}`;
 function createElementFromHTML(htmlString) {
   var div = document.createElement("div");
   div.innerHTML = htmlString.trim();
@@ -44,19 +44,15 @@ export const getCurrentNews = createAsyncThunk(
   }
 );
 
-// export const getNews = createAsyncThunk("news/getNews", async () => {
-//   const response = await axios.get(urlFormat, { params: { limit: 8 } });
-//   return response.data;
-// });
-
-export const getNews = createAsyncThunk("news/getNews", async () => {
-  const response = await axios.get(urlFormat);
+export const getNews = createAsyncThunk("news/getNews", async (params) => {
+  const par = { ...params, sources: "fullcomment" };
+  const response = await axios.get(urlFormat, { params: par });
   return response.data;
 });
 
 export const getHotTopic = createAsyncThunk("news/getHotTopic", async () => {
   const response = await axios.get(urlFormat, {
-    params: { sort: "popularity", limit: 12 },
+    params: { sort: "popularity", limit: 11, sources: "fullcomment" },
   });
   return response.data;
 });
@@ -67,7 +63,6 @@ export const postComment = createAsyncThunk(
     const { displayName, uid } = getState().auth.userData;
     const md5 = require("md5");
     const id_url = md5(url);
-    console.log(id_url);
     const dataToPush = {
       url,
       body,
@@ -75,22 +70,56 @@ export const postComment = createAsyncThunk(
       created_at: Date.now(),
       uid: uid,
     };
-    const commentListRef = ref(dbFirebase, `comments/${id_url}`);
-    const newCommentPostRef = push(commentListRef);
-    await set(newCommentPostRef, dataToPush);
-
-    const response = await set(ref(dbFirebase, "comments"), {
-      url,
-      body,
-      name: displayName,
-      createAt: new Date(),
-      uid: uid,
-    });
-
-    // console.log(response)
-    // return response.data
   }
 );
+
+// export const getNews = createAsyncThunk("news/getNews", async () => {
+//   const response = await axios.get(urlFormat, { params: { limit: 8 } });
+//   return response.data;
+// });
+
+// export const getNews = createAsyncThunk("news/getNews", async () => {
+//   const response = await axios.get(urlFormat);
+//   return response.data;
+// });
+
+// export const getHotTopic = createAsyncThunk("news/getHotTopic", async () => {
+//   const response = await axios.get(urlFormat, {
+//     params: { sort: "popularity", limit: 12 },
+//   });
+//   return response.data;
+// });
+
+// export const postComment = createAsyncThunk(
+//   "news/postComment",
+//   async ({ url, body }, { dispatch, getState }) => {
+//     const { displayName, uid } = getState().auth.userData;
+//     const md5 = require("md5");
+//     const id_url = md5(url);
+//     console.log(id_url);
+//     const dataToPush = {
+//       url,
+//       body,
+//       name: displayName,
+//       created_at: Date.now(),
+//       uid: uid,
+//     };
+//     const commentListRef = ref(dbFirebase, `comments/${id_url}`);
+//     const newCommentPostRef = push(commentListRef);
+//     await set(newCommentPostRef, dataToPush);
+
+//     const response = await set(ref(dbFirebase, "comments"), {
+//       url,
+//       body,
+//       name: displayName,
+//       createAt: new Date(),
+//       uid: uid,
+//     });
+
+//     // console.log(response)
+//     // return response.data
+//   }
+// );
 
 export const authSlice = createSlice({
   name: "news",

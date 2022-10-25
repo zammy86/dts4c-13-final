@@ -11,6 +11,7 @@ import { lazy, Suspense } from "react";
 import Regis from "./pages/Regis";
 import Login from "./pages/Login";
 import LoginRegisLayout from "./pages/LoginRegisLayout";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 export const ThemeContext = createContext(null);
 
@@ -31,33 +32,24 @@ function App() {
         <Route
           path="/"
           element={
-            <Suspense>
+            <Suspense fallback={<LoadingSpinner />}>
               <NewsLayout />
             </Suspense>
           }
         >
           <Route path="/" element={<Home />} />
+          <Route path="/search/:keywords" element={<Home />} />
           <Route path="/news" element={<DetailNews />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
         </Route>
 
-        <Route
-          path="/login"
-          element=<Suspense fallback={null}>
-            <LoginRegisLayout />
-          </Suspense>
-        >
-          <Route path="/login" element=<Login />></Route>
+        <Route path="/login" element={<LoginRegisLayout />}>
+          <Route path="/login" element={<Login />}></Route>
         </Route>
 
-        <Route
-          path="/regis"
-          element=<Suspense fallback={null}>
-            <LoginRegisLayout />
-          </Suspense>
-        >
-          <Route path="/regis" element=<Regis />></Route>
+        <Route path="/regis" element={<LoginRegisLayout />}>
+          <Route path="/regis" element={<Regis />}></Route>
         </Route>
 
         <Route

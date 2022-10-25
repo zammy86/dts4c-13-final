@@ -27,8 +27,9 @@ import {
 } from "../redux/news";
 import CardNews from "../components/CardNews";
 import HotTopic from "../components/HotTopic";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { ThemeContext } from "../App";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Home = () => {
   const [news, setNews] = useState([]);
@@ -80,16 +81,21 @@ const Home = () => {
     </Grid>
   ));
 
+  const [loadingHot, setLoadingHot] = useState(true);
+  const [loadingLatest, setLoadingLatest] = useState(true);
   const mode = useContext(ThemeContext);
-  // console.log(mode.theme);
 
   const dispatch = useDispatch();
   const newStore = useSelector((state) => state.news);
   const navigate = useNavigate();
+  const params = useParams();
   useEffect(() => {
-    dispatch(getHotTopic());
-    dispatch(getNews());
-  }, [dispatch]);
+    setLoadingLatest(true);
+    dispatch(getNews(params)).then(() => setLoadingLatest(false));
+
+    setLoadingHot(true);
+    dispatch(getHotTopic()).then(() => setLoadingHot(false));
+  }, [params, dispatch]);
 
   const handleCardOnClick = (url) => {
     dispatch(deselectNews());
@@ -100,16 +106,35 @@ const Home = () => {
     <div className="home-section" id={mode.theme}>
       <Navbar />
       <Container className="content-section">
-        <Grid container direction="column" className="hot-topics">
-          <div className="title">
-            <h1>Hot Topics</h1>
-          </div>
-
-          <HotTopic
-            news={newStore.hotTopic}
-            handleCardOnClick={handleCardOnClick}
-          />
-        </Grid>
+        {!params.keywords && (
+          <Grid container direction="column" className="hot-topics">
+            <div className="title">
+              <h1>Hot Topics</h1>
+            </div>
+            {loadingHot && Object.keys(newStore.hotTopic).length === 0 ? (
+              <LoadingSpinner />
+            ) : Object.keys(newStore.hotTopic).length !== 0 ? (
+              <HotTopic
+                news={newStore.hotTopic}
+                handleCardOnClick={handleCardOnClick}
+              />
+            ) : (
+              <>
+                <Grid item xs={6} md={12} sx={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Hot Topic Not Found
+                  </div>
+                </Grid>
+              </>
+            )}
+          </Grid>
+        )}
 
         <Grid container>
           <Grid item>
@@ -118,9 +143,12 @@ const Home = () => {
             </div>
           </Grid>
         </Grid>
-        <Grid container sx={{ alignContent: "space-between" }} spacing={3}>
-          {newStore && newStore.news.length
-            ? newStore.news.map((val, idx) => {
+        {loadingLatest ? (
+          <LoadingSpinner />
+        ) : (
+          <Grid container sx={{ alignContent: "space-between" }} spacing={3}>
+            {newStore && newStore.news.length ? (
+              newStore.news.map((val, idx) => {
                 return (
                   <Grid item xs={6} md={3} key={idx}>
                     <Box alignItems="center" justifyContent="center">
@@ -132,8 +160,23 @@ const Home = () => {
                   </Grid>
                 );
               })
-            : null}
-        </Grid>
+            ) : (
+              <>
+                <Grid item xs={6} md={12} sx={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    We're sorry, your request was not found
+                  </div>
+                </Grid>
+              </>
+            )}
+          </Grid>
+        )}
       </Container>
       <Footer />
     </div>

@@ -1,22 +1,27 @@
-import { Avatar, Button, Grid, TextField, Typography } from "@mui/material"
+import { Alert, Avatar, Button, Grid, Snackbar, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createUserWithEmailAndPassword, signInWithCredential, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword, signInWithCredential, updateProfile } from 'firebase/auth';
+import { Link, useNavigate } from "react-router-dom";
 import { authFirebase } from '../services/firebase/base';
-import { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useState } from "react";
+import { handleLogin } from "../redux/authentication";
+import { useDispatch } from "react-redux";
 
 const BoxSignup = () => {
     
     
     const navigate = useNavigate();
-    const [statusLogin, setStatusLogin] = useState(false)
-    // onAuthStateChanged(authFirebase, (user) => {
-    //     setStatusLogin(true)
-    //     return navigate('/')
-    // })
+    const dispatch = useDispatch()
+    // state for handle snackbar
+    const [message, setMessage] = useState(undefined)
+    const [messageStatus, setMessageStatus] = useState(undefined)
+    const [openSnack, setOpenSnack] = useState(false)
 
+    const handleClose = () => {
+      setOpenSnack(false)
+      setMessage(undefined)
+  }
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -32,18 +37,19 @@ const BoxSignup = () => {
                 }).then(() => {
                     //jika berhasil update, maka loginkan ke sistem firebase
                     signInWithCredential(authFirebase, userCredential)
-                        .then((userCredential) => {
-                            const user = userCredential.user;
-                            console.log(user)
+                        .then(() => {
+                            dispatch(handleLogin())
+                            navigate('/')
                         })
-                        .catch((error) => {
-                            const errorCode = error.code;
-                            const errorMessage = error.message;
-                        });
-                    Navigate('/')
                 })
             }
+        }, error => {
+          setMessageStatus ('error')
+          setOpenSnack(true)
+          const msgError = error.code.split("/")
+          setMessage(`Error caused ${msgError[1].split("-").join(" ")}`)
         })
+        .catch(err => console.log(err.code))
     
     };
 
@@ -107,6 +113,12 @@ const BoxSignup = () => {
               </Grid>
             </Grid>
           </Box>
+           {/* info login if fail */}
+           <Snackbar open={openSnack} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity={messageStatus} sx={{ width: '100%' }}>
+                    {message}
+                </Alert>
+            </Snackbar>
         </>
     )  
 }
