@@ -145,39 +145,13 @@ export const Navbar = () => {
         <div className="navbar-section">
           <div className="navbar-left">
             <Link className="link" to="/">
-              <div className="title1">News</div>
-              <div className="title2">Portal</div>
+              <div className="title1">CamPRO</div>
+              <div className="title2">News</div>
             </Link>
           </div>
           <div className="navbar-right">
-            <div className="search-wrapper">
-              <Search className="search">
-                <SearchIconWrapper className="search-icon-wrapper">
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  className="search-input"
-                  placeholder="Enter Text Search…"
-                  inputProps={{ "aria-label": "search" }}
-                  onKeyDown={(e) => {
-                    handleSearch(e);
-                  }}
-                />
-              </Search>
-            </div>
-            <div>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <MaterialUISwitch
-                      sx={{ m: 1 }}
-                      onChange={mode.toggleTheme}
-                      checked={mode.theme === "dark"}
-                    />
-                  }
-                />
-              </FormGroup>
-            </div>
+            <div className="search-wrapper"></div>
+            <div></div>
             <div className="dropdown">
               <Button
                 className="menu"
@@ -191,6 +165,7 @@ export const Navbar = () => {
               </Button>
               <Menu
                 id="basic-menu"
+                className="basic-menu"
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
@@ -198,7 +173,16 @@ export const Navbar = () => {
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem>
+                <MenuItem id="title-dropdown" className="title-dropdown">
+                  <Link className="link" to="/">
+                    <div id="title1" className="title1">
+                      <p>
+                        <b>CamPRO</b> News
+                      </p>
+                    </div>
+                  </Link>
+                </MenuItem>
+                <MenuItem id="home-link">
                   <Link className="link" to="/">
                     Home
                   </Link>
@@ -226,6 +210,34 @@ export const Navbar = () => {
                     </Link>
                   </MenuItem>
                 )}
+                <MenuItem>
+                  <Search className="search">
+                    <SearchIconWrapper className="search-icon-wrapper">
+                      <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                      className="search-input"
+                      placeholder="Search..."
+                      inputProps={{ "aria-label": "search" }}
+                      onKeyDown={(e) => {
+                        handleSearch(e);
+                      }}
+                    />
+                  </Search>
+                </MenuItem>
+                <MenuItem>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <MaterialUISwitch
+                          sx={{ m: 1 }}
+                          onChange={mode.toggleTheme}
+                          checked={mode.theme === "dark"}
+                        />
+                      }
+                    />
+                  </FormGroup>
+                </MenuItem>
               </Menu>
             </div>
           </div>

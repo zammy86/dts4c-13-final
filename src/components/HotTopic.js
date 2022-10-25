@@ -76,7 +76,7 @@ const HotTopic = (props) => {
               src={news.image}
               height="400"
             />
-            <Typography variant="h4" style={styles.overlay}>
+            <Typography id="font" variant="h4" style={styles.overlay}>
               {news.title}
             </Typography>
           </div>
@@ -99,7 +99,9 @@ const HotTopic = (props) => {
           }}
         >
           <CardContent>
-            <Typography variant="h5">{news.description}</Typography>
+            <Typography id="font" variant="h5">
+              {news.description}
+            </Typography>
           </CardContent>
           <CardActions className="card-action-dense">
             <Box

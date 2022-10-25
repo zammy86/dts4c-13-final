@@ -7,7 +7,7 @@ export default function Footer() {
   const mode = useContext(ThemeContext);
   return (
     <div className="footer" id={mode.theme}>
-      <p>Copyright 2022 News</p>
+      <p>Copyright 2022 camPRO NEWS</p>
     </div>
   );
 }

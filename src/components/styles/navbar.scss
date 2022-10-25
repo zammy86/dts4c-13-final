@@ -4,6 +4,7 @@
   width: 100vw;
   padding-top: 15px;
   padding-bottom: 15px;
+
   .container {
     .navbar-section {
       display: flex;
@@ -39,6 +40,18 @@
         .dropdown {
           .menu {
             color: #121221;
+          }
+          .basic-menu {
+            .title-dropdown {
+              .link {
+                display: flex;
+                .title1 {
+                  border-radius: 10px;
+                  color: #fdfdfd;
+                  background-color: #121221;
+                }
+              }
+            }
           }
         }
       }
@@ -100,6 +113,20 @@
           .menu {
             color: #fdfdfd;
           }
+          .basic-menu {
+            .title-dropdown {
+              .link {
+                border-radius: 10px;
+                color: #121221;
+                background-color: #fdfdfd;
+                .title2 {
+                  border-radius: 10px;
+                  color: #121221;
+                  background-color: #fdfdfd;
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -107,4 +134,29 @@
 }
 
 @media screen and (max-width: 600px) {
+  .navbar-left {
+    display: none;
+  }
+
+  #home-link {
+    display: none;
+  }
+
+  #title1 {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    p {
+      b {
+        padding: 3px;
+        border-radius: 10px;
+        color: #fdfdfd;
+        background-color: #121221;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  #title-dropdown {
+    display: none;
+  }
 }

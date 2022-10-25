@@ -32,7 +32,11 @@ const DetailNews = () => {
     <div id={mode.theme} className="detail-section">
       <Navbar />
 
-      <Container>
+      <Container
+        sx={{
+          minHeight: "100vh",
+        }}
+      >
         {loading ? (
           <LoadingSpinner />
         ) : (

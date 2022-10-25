@@ -21,8 +21,25 @@
 }
 
 @media screen and (max-width: 600px) {
-  .card-content {
+  //   .card-content {
+  //     display: flex;
+  //     flex-direction: row;
+  //   }
+  .update-latest {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
+  .publish {
+    font-size: small;
+  }
+  .source {
+    font-size: 10px;
+  }
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid;
 }

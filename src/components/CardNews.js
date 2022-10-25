@@ -23,7 +23,11 @@ const CardNews = (props) => {
       <Card
         id={mode.theme}
         className="card-latest"
-        sx={{ height: 350, cursor: "pointer" }}
+        sx={{
+          maxHeight: "fit-content",
+          minheight: "350px",
+          cursor: "pointer",
+        }}
         onClick={() => handleCardOnClick(news.url)}
       >
         {news.image ? (
@@ -44,17 +48,23 @@ const CardNews = (props) => {
             id={mode.theme}
             className="update-latest"
             sx={{
-              position: "absolute",
+              // position: "absolute",
               bottom: 5,
               display: "flex",
               fontSize: "0.8rem",
+              justifyContent: "space-between",
+              marginTop: "3rem",
             }}
             color="text.secondary"
           >
-            <div style={{ paddingRight: "1.5rem" }}>
-              <Moment fromNow>{news.published_at}</Moment>
+            <div style={{}}>
+              <Moment className="publish" fromNow>
+                {news.published_at}
+              </Moment>
             </div>
-            <div style={{ textTransform: "uppercase" }}>{news.source}</div>
+            <div className="source" style={{ textTransform: "uppercase" }}>
+              {news.source}
+            </div>
           </Typography>
         </CardContent>
       </Card>

@@ -26,9 +26,14 @@
       }
     }
   }
+  @media screen and (min-width: 1000px) {
+    .container {
+      width: 500px;
+    }
+  }
   @media screen and (max-width: 1000px) {
     .container {
-      width: 70vw;
+      width: 500px;
     }
   }
   @media screen and (max-width: 600px) {
