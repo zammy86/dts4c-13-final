@@ -4,8 +4,9 @@
 
 # Link Live APP
 
-https://campronews.web.app/
-https://campronews.firebaseapp.com/
+- https://campronews.web.app/
+
+- https://campronews.firebaseapp.com/
 
 # Penjelasan, API, Fitur Unik
 
