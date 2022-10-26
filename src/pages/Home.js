@@ -112,29 +112,6 @@ const Home = () => {
   return (
     <div className="home-section" id={mode.theme}>
       <Navbar />
-      <div
-        className="pengumuman"
-        style={{ position: "relative", display: pengumuman }}
-      >
-        <p>Jika Berita Tidak Mucul</p>
-        <p>
-          Chrome setting --&gt; site setting --&gt; Insecure content --&gt;
-          click add button of allow, lalu masukan nama domain situs ini
-        </p>
-        <IconButton
-          size="small"
-          onClick={toggleClose}
-          className="close"
-          sx={{
-            border: "1px solid",
-            position: "absolute",
-            right: "1rem",
-            top: "1rem",
-          }}
-        >
-          <Close />
-        </IconButton>
-      </div>
       <Container className="content-section">
         {!params.keywords && (
           <Grid container direction="column" className="hot-topics">
